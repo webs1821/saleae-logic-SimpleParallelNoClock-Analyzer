@@ -2,6 +2,22 @@
 
 Plugin for Saleae Logic Software. Analyzer for parallel data communication without a clock signal. The data word transmitted is re-evaluated on every data transition.
 
+## Features & Modifications (webs1821 fork)
+
+This fork builds upon the original plugin and incorporates essential fixes from `maxmitti`, along with new capabilities specifically designed for debugging 16-bit systems (like the Intel 8086).
+
+### 1. Enhancements by `maxmitti` (Base Fork)
+* **FrameV2 Support**: Full compatibility with the new Logic 2 Data Table and High-Level Analyzers (HLAs). Data is saved as a `Byte` for 8 channels or `Integer` for up to 16 channels.
+* **Logic 2 Freeze Fix**: Resolves an issue where the analyzer would crash or hang Logic 2 during a Live Capture if no new edges were detected.
+* **Basic Glitch Skipping**: Ignores glitches that are only 1 sample long to prevent false data reads.
+* **Dynamic Number Formatting**: Accurately formats display strings based on the actual number of active channels instead of hardcoded 8 or 16 bits.
+
+### 2. Enhancements in this Version (webs1821)
+* **Configurable Glitch Filter (Settling Time)**: Added a new `Glitch Filter (ns)` setting in the UI. For clockless systems like the 8086, data lines settle at slightly different times, causing transient states. You can now specify a minimum settling time (in nanoseconds) that the bus must be stable before the frame is evaluated.
+* **Endianness Byte Swap (16-bit)**: Added a `Swap Bytes (16-bit / Endianness)` toggle. Since x86 is Little Endian, memory reads of a 16-bit word will place the LSB at the lower address and MSB at the higher address. This option mathematically swaps the lower and upper 8 bits so the decoded values match standard Left-to-Right hex dumps (e.g., swapping `0x00EA` to `0xEA00`) without needing to rewire probes in the UI.
+
+---
+
 Documentation for the Saleae Logic Analyzer SDK can be found here:
 https://github.com/saleae/SampleAnalyzer
 

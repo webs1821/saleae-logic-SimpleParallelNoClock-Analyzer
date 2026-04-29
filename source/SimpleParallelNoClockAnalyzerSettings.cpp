@@ -41,7 +41,8 @@ SimpleParallelAnalyzerSettings::SimpleParallelAnalyzerSettings()
 
 	mMinSettlingTimeNsInterface.reset( new AnalyzerSettingInterfaceInteger() );
 	mMinSettlingTimeNsInterface->SetTitleAndTooltip( "Glitch Filter (ns)", "Minimum settling time in nanoseconds" );
-	mMinSettlingTimeNsInterface->SetMaxAndMin( 0, 1000000000 );
+	mMinSettlingTimeNsInterface->SetMax( 1000000000 );
+	mMinSettlingTimeNsInterface->SetMin( 0 );
 	mMinSettlingTimeNsInterface->SetInteger( mMinSettlingTimeNs );
 
 

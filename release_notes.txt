@@ -1,3 +1,18 @@
+Simple Parallel Analyzer noclock V2.2 (webs1821)
+-----------------------------------------------
+- Added configurable "Glitch Filter (ns)" (Settling Time) to filter out 
+  bus transients in clockless systems (e.g. 8086 data bus).
+- Added "Swap Bytes (16-bit / Endianness)" option to correctly display 
+  Little-Endian words as read from Left-to-Right (e.g. 0x00EA -> 0xEA00).
+- Included a Windows build script (build_win.bat) for Visual Studio 2022.
+
+Simple Parallel Analyzer noclock V2.1 (maxmitti)
+-----------------------------------------------
+- Added FrameV2 support (compatible with Logic 2 Data Table and HLAs).
+- Fixed a bug where Logic 2 would freeze when no edges were detected.
+- Fixed glitch skipping (ignored 1-sample transitions).
+- Corrected display formatting for active channel count.
+
 Simple Parallel Analyzer noclock V1.0
 -------------------------------------
 

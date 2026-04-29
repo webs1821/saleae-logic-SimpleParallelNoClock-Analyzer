@@ -136,6 +136,12 @@ void SimpleParallelAnalyzer::WorkerThread()
 			continue;
 		}
 
+		if (mSettings->mSwapBytes && num_data_lines > 8) {
+			U16 lower_byte = result & 0x00FF;
+			U16 upper_byte = (result & 0xFF00) >> 8;
+			result = (lower_byte << 8) | upper_byte;
+		}
+
 		//add frame
 		//note that with uiNearestEdge = UINT64_MAX the last value is added as TabularText
 		//but not displayed as BubbleText

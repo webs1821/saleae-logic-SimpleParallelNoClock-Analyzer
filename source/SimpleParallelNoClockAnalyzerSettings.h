@@ -22,6 +22,7 @@ public:
 	AnalyzerEnums::EdgeDirection mClockEdge;
 
 	int mMinSettlingTimeNs;
+	bool mSwapBytes;
 
 protected:
 	std::vector< AnalyzerSettingInterfaceChannel* > mDataChannelsInterface;
@@ -29,6 +30,7 @@ protected:
 	std::auto_ptr< AnalyzerSettingInterfaceChannel >	mClockChannelInterface;
 	std::auto_ptr< AnalyzerSettingInterfaceNumberList >	mClockEdgeInterface;
 	std::auto_ptr< AnalyzerSettingInterfaceInteger > mMinSettlingTimeNsInterface;
+	std::auto_ptr< AnalyzerSettingInterfaceBool > mSwapBytesInterface;
 };
 
 #endif //SIMPLEPARALLEL_ANALYZER_SETTINGS

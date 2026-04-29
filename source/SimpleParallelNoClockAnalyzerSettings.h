@@ -21,11 +21,14 @@ public:
 
 	AnalyzerEnums::EdgeDirection mClockEdge;
 
+	int mMinSettlingTimeNs;
+
 protected:
 	std::vector< AnalyzerSettingInterfaceChannel* > mDataChannelsInterface;
 
 	std::auto_ptr< AnalyzerSettingInterfaceChannel >	mClockChannelInterface;
 	std::auto_ptr< AnalyzerSettingInterfaceNumberList >	mClockEdgeInterface;
+	std::auto_ptr< AnalyzerSettingInterfaceInteger > mMinSettlingTimeNsInterface;
 };
 
 #endif //SIMPLEPARALLEL_ANALYZER_SETTINGS

@@ -31,7 +31,9 @@ void SimpleParallelAnalyzer::SetupResults()
 
 void SimpleParallelAnalyzer::WorkerThread()
 {
-	//mSampleRateHz = GetSampleRate();
+	double sample_rate = GetSampleRate();
+	U32 min_stable_samples = (U32)((mSettings->mMinSettlingTimeNs * sample_rate) / 1000000000.0);
+	U32 filter_samples = std::max(min_stable_samples, (U32)1);
 
 	mData.clear();
 	mDataMasks.clear();
@@ -129,8 +131,8 @@ void SimpleParallelAnalyzer::WorkerThread()
 			continue;
 		}
 
-		// skip glitches that are only 1 sample long
-		if (uiNearestEdge - sample <= 1) {
+		// skip glitches that are shorter than the configured settling time
+		if (uiNearestEdge - sample <= filter_samples) {
 			continue;
 		}
 

@@ -8,7 +8,8 @@
 SimpleParallelAnalyzerSettings::SimpleParallelAnalyzerSettings()
 :
 	mClockChannel( UNDEFINED_CHANNEL ),
-	mClockEdge( AnalyzerEnums::PosEdge )
+	mClockEdge( AnalyzerEnums::PosEdge ),
+	mMinSettlingTimeNs( 0 )
 {
 	U32 count = 16;
 	for( U32 i=0; i<count; i++ )
@@ -38,6 +39,11 @@ SimpleParallelAnalyzerSettings::SimpleParallelAnalyzerSettings()
 	mClockEdgeInterface->AddNumber( AnalyzerEnums::NegEdge, "Data is valid on Clock falling edge", "Data is valid on Clock falling edge" );
 	mClockEdgeInterface->SetNumber( mClockEdge );
 
+	mMinSettlingTimeNsInterface.reset( new AnalyzerSettingInterfaceInteger() );
+	mMinSettlingTimeNsInterface->SetTitleAndTooltip( "Glitch Filter (ns)", "Minimum settling time in nanoseconds" );
+	mMinSettlingTimeNsInterface->SetMaxAndMin( 0, 1000000000 );
+	mMinSettlingTimeNsInterface->SetInteger( mMinSettlingTimeNs );
+
 
 
 	for( U32 i=0; i<count; i++ )
@@ -47,6 +53,7 @@ SimpleParallelAnalyzerSettings::SimpleParallelAnalyzerSettings()
 
 	AddInterface( mClockChannelInterface.get() );
 	//AddInterface( mClockEdgeInterface.get() ); removes clock edge from the settings page
+	AddInterface( mMinSettlingTimeNsInterface.get() );
 
 	AddExportOption( 0, "Export as text/csv file" );
 	AddExportExtension( 0, "text", "txt" );
@@ -91,6 +98,7 @@ bool SimpleParallelAnalyzerSettings::SetSettingsFromInterfaces()
 
 	mClockChannel = mClockChannelInterface->GetChannel();
 	mClockEdge = AnalyzerEnums::EdgeDirection( U32( mClockEdgeInterface->GetNumber() ) );
+	mMinSettlingTimeNs = mMinSettlingTimeNsInterface->GetInteger();
 
 	ClearChannels();
 	for( U32 i=0; i<count; i++ )
@@ -113,6 +121,7 @@ void SimpleParallelAnalyzerSettings::UpdateInterfacesFromSettings()
 
 	mClockChannelInterface->SetChannel( mClockChannel );
 	mClockEdgeInterface->SetNumber( mClockEdge );
+	mMinSettlingTimeNsInterface->SetInteger( mMinSettlingTimeNs );
 }
 
 void SimpleParallelAnalyzerSettings::LoadSettings( const char* settings )
@@ -129,6 +138,7 @@ void SimpleParallelAnalyzerSettings::LoadSettings( const char* settings )
 
 	text_archive >> mClockChannel;
 	text_archive >> *(U32*)&mClockEdge;
+	text_archive >> mMinSettlingTimeNs;
 
 	ClearChannels();
 	for( U32 i=0; i<count; i++ )
@@ -156,6 +166,7 @@ const char* SimpleParallelAnalyzerSettings::SaveSettings()
 
 	text_archive << mClockChannel;
 	text_archive << mClockEdge;
+	text_archive << mMinSettlingTimeNs;
 
 	return SetReturnString( text_archive.GetString() );
 }
